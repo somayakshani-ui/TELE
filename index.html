@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>پای بازار | Pi Bazar</title>
+  <!-- FontAwesome ئایکۆنەکانی -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* پاشخانی 3D 8K سۆفت و تەکنەلۆژی مۆر و ڕەش */
+      background: radial-gradient(circle at 50% 20%, #201138 0%, #0d0617 50%, #05020a 100%);
+      background-attachment: fixed;
+      position: relative;
+      overflow-x: hidden;
+      padding-bottom: 50px;
+    }
+
+    /* کاریگەری ئەستێرە و هێڵە تیشکییەکان لەسەر پاشخانەکە */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(1.5px 1.5px at 30px 40px, #a855f7, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 150px 180px, #e9d5ff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 280px 100px, #c084fc, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 350px 290px, #ffffff, rgba(0,0,0,0));
+      background-repeat: repeat;
+      background-size: 320px 320px;
+      opacity: 0.6;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* شریتی سەوزی سەرەوە */
+    .top-bar {
+      width: 100%;
+      height: 48px;
+      background: #22c55e;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 20px;
+      z-index: 1;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+
+    .menu-icon {
+      color: #0f172a;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    /* بەشی سەرەکی ناوەڕۆک */
+    .main-wrapper {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      z-index: 1;
+    }
+
+    /* سندوقی وێنەی لۆگۆ بە دیزاینی 3D و ڕووناکیی مۆر و ئاڵتوونی */
+    .avatar-box {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      margin: 15px 0;
+      border: 3px solid #eab308;
+      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.5), 0 0 20px rgba(234, 179, 8, 0.4);
+      overflow: hidden;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+    }
+
+    .avatar-box:hover {
+      transform: scale(1.05);
+    }
+
+    .avatar-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ناونیشانی سەرەکی */
+    .page-title {
+      color: #ffffff;
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 25px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+      letter-spacing: 0.5px;
+    }
+
+    /* کۆمەڵەی بەستەرەکان */
+    .links-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 15px;
+      background: #ffffff;
+      color: #0f172a;
+      text-decoration: none;
+      padding: 15px 22px;
+      border-radius: 8px;
+      border: 2px solid #1e1b4b;
+      font-size: 17px;
+      font-weight: 700;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      transition: all 0.2s ease-in-out;
+      direction: ltr;
+    }
+
+    .link-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 22px rgba(168, 85, 247, 0.35);
+      background: #faf5ff;
+    }
+
+    /* ئایکۆنەکان */
+    .link-card i {
+      font-size: 26px;
+      width: 30px;
+      text-align: center;
+    }
+
+    .fa-instagram { color: #E1306C; }
+    .fa-telegram { color: #229ED9; }
+    .fa-facebook { color: #1877F2; }
+    .fa-users-rectangle { color: #0284c7; }
+    .fa-whatsapp { color: #25D366; }
+    .fa-phone { color: #16a34a; }
+
+    /* دوگمەی تەلەفۆن لە خوارەوە */
+    .call-section {
+      margin-top: 30px;
+    }
+
+    .call-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #ffffff;
+      color: #0f172a;
+      text-decoration: none;
+      padding: 10px 28px;
+      border-radius: 6px;
+      border: 2px solid #0f172a;
+      font-size: 15px;
+      font-weight: bold;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      direction: ltr;
+      transition: all 0.2s;
+    }
+
+    .call-btn:hover {
+      transform: translateY(-2px);
+      background: #f1f5f9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- شریتی سەرەوەی سەوز -->
+  <div class="top-bar">
+    <div class="menu-icon">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+  </div>
+
+  <div class="main-wrapper">
+    <!-- وێنەی لۆگۆ بەستراوە بە لینکی ڕاستەوخۆ -->
+    <div class="avatar-box">
+      <img src="https://i.postimg.cc/1Xw1L5M9/1790114385928.png" alt="Pi Bazar / SEVEN Network Logo">
+    </div>
+
+    <!-- ناوی سەرەکی -->
+    <h1 class="page-title">پای بازار | Pi Bazar</h1>
+
+    <!-- بەستەرەکانت -->
+    <div class="links-group">
+      
+      <!-- ئینستاگرام -->
+      <a href="https://www.instagram.com/pibazr_?stkn=cGc5NzNjem56Y2Rl" target="_blank" class="link-card">
+        <i class="fa-brands fa-instagram"></i>
+        <span>ئینستاگرام (Instagram)</span>
+      </a>
+
+      <!-- تێلیگرام -->
+      <a href="https://t.me/+Su9rY17coXU0MWYy" target="_blank" class="link-card">
+        <i class="fa-brands fa-telegram"></i>
+        <span>تێلیگرام (Telegram)</span>
+      </a>
+
+      <!-- پەیجی فەیسبووک -->
+      <a href="https://www.facebook.com/share/1BWWg6YHdR/" target="_blank" class="link-card">
+        <i class="fa-brands fa-facebook"></i>
+        <span>پەیجی فەیسبووک (Facebook)</span>
+      </a>
+
+      <!-- گرووپی فەیسبووک -->
+      <a href="https://www.facebook.com/share/g/1BnrLRNjAf/" target="_blank" class="link-card">
+        <i class="fa-solid fa-users-rectangle"></i>
+        <span>گرووپی فەیسبووک (Facebook Group)</span>
+      </a>
+
+      <!-- واتسئاپ بە ژمارەکەت -->
+      <a href="https://wa.me/9647504930870" target="_blank" class="link-card">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>واتسئاپ (WhatsApp)</span>
+      </a>
+
+    </div>
+
+    <!-- دوگمەی پەیوەندی خێرا بە ژمارەکەتەوە -->
+    <div class="call-section">
+      <a href="tel:009647504930870" class="call-btn">
+        <i class="fa-solid fa-phone"></i>
+        <span>0750 493 0870</span>
+      </a>
+    </div>
+
+  </div>
+
+</body>
+</html>
